@@ -1,0 +1,325 @@
+import tensorflow as tf
+std_dev=0.001
+MODEL_NAME='classification_complex'
+def inference(x,train=False):
+
+    conv1_1_1_1 = tf.layers.conv2d(inputs=x,
+                               filters=32,
+                               kernel_size=3,
+                               strides=1,
+                               padding='SAME',
+                               data_format='channels_last',
+                               activation=tf.nn.relu,
+                               use_bias=tf.nn.relu,
+                               kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
+                               bias_initializer=tf.constant_initializer(0.0),
+                               kernel_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               bias_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               trainable=train,
+                               name='conv1_1_1_1'
+                               )
+    conv1_1_2_1 = tf.layers.conv2d(inputs=x,
+                                   filters=32,
+                                   kernel_size=5,
+                                   strides=1,
+                                   padding='SAME',
+                                   data_format='channels_last',
+                                   activation=tf.nn.relu,
+                                   use_bias=tf.nn.relu,
+                                   kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
+                                   bias_initializer=tf.constant_initializer(0.0),
+                                   kernel_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                                   bias_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                                   trainable=train,
+                                   name='conv1_1_2_1'
+                                   )
+    conv1_1_2_2 = tf.layers.conv2d(inputs=conv1_1_2_1,
+                                   filters=32,
+                                   kernel_size=3,
+                                   strides=1,
+                                   padding='SAME',
+                                   data_format='channels_last',
+                                   activation=tf.nn.relu,
+                                   use_bias=tf.nn.relu,
+                                   kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
+                                   bias_initializer=tf.constant_initializer(0.0),
+                                   kernel_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                                   bias_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                                   trainable=train,
+                                   name='conv1_1_2_2'
+                                   )
+    conv1_1 = tf.layers.conv2d(inputs=tf.concat([x,conv1_1_1_1,conv1_1_2_2],-1),
+                                   filters=32,
+                                   kernel_size=1,
+                                   strides=1,
+                                   padding='SAME',
+                                   data_format='channels_last',
+                                   activation=tf.nn.relu,
+                                   use_bias=tf.nn.relu,
+                                   kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
+                                   bias_initializer=tf.constant_initializer(0.0),
+                                   kernel_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                                   bias_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                                   trainable=train,
+                                   name='conv1_1'
+                                   )
+    conv1_2 = tf.layers.conv2d(inputs=conv1_1,
+                               filters=32,
+                               kernel_size=3,
+                               strides=1,
+                               padding='SAME',
+                               data_format='channels_last',
+                               activation=None,
+                               use_bias=True,
+                               kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
+                               bias_initializer=tf.constant_initializer(0.0),
+                               kernel_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               bias_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               trainable=train,
+                                 name='conv1_2'
+                               )
+    conv1_3 = tf.layers.conv2d(inputs=conv1_2,
+                               filters=32,
+                               kernel_size=3,
+                               strides=1,
+                               padding='SAME',
+                               data_format='channels_last',
+                               activation=None,
+                               use_bias=True,
+                               kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
+                               bias_initializer=tf.constant_initializer(0.0),
+                               kernel_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               bias_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               trainable=train,
+                                 name='conv1_3'
+                               )
+    conv1_4 = tf.layers.conv2d(inputs=conv1_3,
+                               filters=32,
+                               kernel_size=3,
+                               strides=1,
+                               padding='SAME',
+                               data_format='channels_last',
+                               activation=None,
+                               use_bias=True,
+                               kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
+                               bias_initializer=tf.constant_initializer(0.0),
+                               kernel_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               bias_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               trainable=train,
+                               name='conv1_4'
+                               )
+    pool1=tf.layers.average_pooling2d(inputs=conv1_4,
+                                      strides=2,
+                                      pool_size=2,
+                                      name='pool1')
+    bn1 = tf.layers.batch_normalization(inputs=pool1, training=True)
+    conv2_1 = tf.layers.conv2d(inputs=bn1,
+                               filters=64,
+                               kernel_size=3,
+                               strides=1,
+                               padding='SAME',
+                               data_format='channels_last',
+                               activation=tf.nn.relu,
+                               use_bias=tf.nn.relu,
+                               kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
+                               bias_initializer=tf.constant_initializer(0.0),
+                               kernel_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               bias_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               trainable=train,
+                               name='conv2_1'
+                               )
+    conv2_2 = tf.layers.conv2d(inputs=conv2_1,
+                               filters=64,
+                               kernel_size=3,
+                               strides=1,
+                               padding='SAME',
+                               data_format='channels_last',
+                               activation=None,
+                               use_bias=True,
+                               kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
+                               bias_initializer=tf.constant_initializer(0.0),
+                               kernel_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               bias_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               trainable=train,
+                               name='conv2_2'
+                               )
+    pool2 = tf.layers.average_pooling2d(inputs=conv2_2,
+                                        strides=2,
+                                        pool_size=2,
+                                        name='pool2')
+    bn2 = tf.layers.batch_normalization(inputs=pool2, training=True)
+    conv3_1 = tf.layers.conv2d(inputs=bn2,
+                               filters=128,
+                               kernel_size=3,
+                               strides=1,
+                               padding='SAME',
+                               data_format='channels_last',
+                               activation=tf.nn.relu,
+                               use_bias=tf.nn.relu,
+                               kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
+                               bias_initializer=tf.constant_initializer(0.0),
+                               kernel_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               bias_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               trainable=train,
+                               name='conv3_1'
+                               )
+    conv3_2 = tf.layers.conv2d(inputs=conv3_1,
+                               filters=128,
+                               kernel_size=3,
+                               strides=1,
+                               padding='SAME',
+                               data_format='channels_last',
+                               activation=None,
+                               use_bias=True,
+                               kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
+                               bias_initializer=tf.constant_initializer(0.0),
+                               kernel_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               bias_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               trainable=train,
+                               name='conv3_2'
+                               )
+    conv3_3 = tf.layers.conv2d(inputs=conv3_2,
+                               filters=128,
+                               kernel_size=3,
+                               strides=1,
+                               padding='SAME',
+                               data_format='channels_last',
+                               activation=None,
+                               use_bias=True,
+                               kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
+                               bias_initializer=tf.constant_initializer(0.0),
+                               kernel_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               bias_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               trainable=train,
+                               name='conv3_3'
+                               )
+    pool3 = tf.layers.average_pooling2d(inputs=conv3_3,
+                                        strides=2,
+                                        pool_size=2,
+                                        name='pool3')
+    bn3 = tf.layers.batch_normalization(inputs=pool3, training=True)
+    conv4_1 = tf.layers.conv2d(inputs=bn3,
+                               filters=256,
+                               kernel_size=3,
+                               strides=1,
+                               padding='SAME',
+                               data_format='channels_last',
+                               activation=tf.nn.relu,
+                               use_bias=tf.nn.relu,
+                               kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
+                               bias_initializer=tf.constant_initializer(0.0),
+                               kernel_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               bias_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               trainable=train,
+                               name='conv4_1'
+                               )
+    conv4_2 = tf.layers.conv2d(inputs=conv4_1,
+                               filters=256,
+                               kernel_size=3,
+                               strides=1,
+                               padding='SAME',
+                               data_format='channels_last',
+                               activation=None,
+                               use_bias=True,
+                               kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
+                               bias_initializer=tf.constant_initializer(0.0),
+                               kernel_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               bias_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               trainable=train,
+                               name='conv4_2'
+                               )
+    conv4_3 = tf.layers.conv2d(inputs=conv4_2,
+                               filters=256,
+                               kernel_size=3,
+                               strides=1,
+                               padding='SAME',
+                               data_format='channels_last',
+                               activation=None,
+                               use_bias=True,
+                               kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
+                               bias_initializer=tf.constant_initializer(0.0),
+                               kernel_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               bias_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               trainable=train,
+                               name='conv4_3'
+                               )
+    conv4_4 = tf.layers.conv2d(inputs=conv4_3,
+                               filters=256,
+                               kernel_size=3,
+                               strides=1,
+                               padding='SAME',
+                               data_format='channels_last',
+                               activation=None,
+                               use_bias=True,
+                               kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
+                               bias_initializer=tf.constant_initializer(0.0),
+                               kernel_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               bias_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               trainable=train,
+                               name='conv4_4'
+                               )
+    pool4 = tf.layers.average_pooling2d(inputs=conv4_4,
+                                        strides=2,
+                                        pool_size=2,
+                                        name='pool4')
+    bn4 = tf.layers.batch_normalization(inputs=pool4, training=True)
+    conv5_1 = tf.layers.conv2d(inputs=bn4,
+                               filters=512,
+                               kernel_size=3,
+                               strides=1,
+                               padding='SAME',
+                               data_format='channels_last',
+                               activation=tf.nn.relu,
+                               use_bias=tf.nn.relu,
+                               kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
+                               bias_initializer=tf.constant_initializer(0.0),
+                               kernel_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               bias_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               trainable=train,
+                               name='conv5_1'
+                               )
+    conv5_2 = tf.layers.conv2d(inputs=conv5_1,
+                               filters=512,
+                               kernel_size=3,
+                               strides=1,
+                               padding='SAME',
+                               data_format='channels_last',
+                               activation=None,
+                               use_bias=True,
+                               kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
+                               bias_initializer=tf.constant_initializer(0.0),
+                               kernel_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               bias_regularizer=tf.contrib.layers.l2_regularizer(0.003),
+                               trainable=train,
+                               name='conv5_2'
+                               )
+    pool5 = tf.layers.average_pooling2d(inputs=conv5_2,
+                                        strides=2,
+                                        pool_size=2,
+                                        name='pool5')
+    # reshape
+    shape = pool5.get_shape().as_list()
+    print(shape)
+    nodes = shape[1] * shape[2] * shape[3]
+    print('nodes=' + str(nodes))
+    reshaped = tf.reshape(pool5, [-1, nodes])
+    bn5=tf.layers.batch_normalization(inputs=reshaped,training=True)
+    fc_score_1=tf.layers.dense(inputs=bn5,
+                        units=120,
+                        activation=tf.nn.relu,
+                        kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
+                        bias_initializer=tf.constant_initializer(0.0),
+                        trainable=train,
+                               name='fc1'
+                        )
+    fc_score_1 = tf.layers.dropout(fc_score_1, training=train)
+    fc_score_3 = tf.layers.dense(inputs=fc_score_1,
+                                 units=10,
+                                 activation=None,
+                                 kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
+                                 bias_initializer=tf.constant_initializer(0.0),
+                                 trainable=train,
+                               name='fc2'
+                                 )
+    variables = tf.contrib.framework.get_variables_to_restore()
+    return tf.nn.softmax(fc_score_3),variables
