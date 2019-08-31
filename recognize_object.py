@@ -43,7 +43,7 @@ def resize_boxes(img,bboxes,num_scores=0):
     for box in bboxes:
         try:
             print('box='+str(box))
-            region=img[box[num_scores]:box[num_scores]+box[num_scores+2],box[num_scores+1]:box[num_scores+1]+box[num_scores+3],:]
+            region=img[box[num_scores+1]:box[num_scores+1]+box[num_scores+3],box[num_scores]:box[num_scores]+box[num_scores+2],:]
             print(region.shape)
             region=cv2.resize(region,(constants.IMG_SHAPE[1],constants.IMG_SHAPE[0]),interpolation=cv2.INTER_CUBIC)
             regions[indx]=region/255.0
@@ -97,7 +97,7 @@ def show_results(file_name,items,colors,labels):
     return img_show
 
 if __name__=='__main__':
-    IMG_NAME = 'Heermann_Gull_0135_45283.jpg'
+    IMG_NAME = 'Laysan_Albatross_0047_619.jpg'
     labels=read_labels()
     img,boxes=get_proposals(IMG_NAME)
     regions,num=resize_boxes(img,boxes)
