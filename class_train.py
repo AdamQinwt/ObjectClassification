@@ -7,7 +7,7 @@ import inference_complex as inference
 import class_parser as cp
 import platform
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 print('system='+platform.system())
 print('DIR='+constants.ROOT)
@@ -20,7 +20,7 @@ if __name__=='__main__':
     pic=tf.placeholder(dtype=tf.float32,shape=[None,constants.IMG_SHAPE[0],constants.IMG_SHAPE[1],constants.IMG_SHAPE[2]])
     score_=tf.placeholder(dtype=tf.float32,shape=[None,constants.CLASS_NUM])
     config = tf.ConfigProto(log_device_placement=False)
-    config.gpu_options.per_process_gpu_memory_fraction = 0.5
+    config.gpu_options.per_process_gpu_memory_fraction = 0.8
     config.gpu_options.allow_growth = True
 
     global_step = tf.Variable(initial_value=0, trainable=False)

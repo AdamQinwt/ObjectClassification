@@ -9,7 +9,7 @@ def inference(x,train=False):
                                padding='SAME',
                                data_format='channels_last',
                                activation=tf.nn.relu,
-                               use_bias=tf.nn.relu,
+                               use_bias=True,
                                kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
                                bias_initializer=tf.constant_initializer(0.0),
                                kernel_regularizer=tf.contrib.layers.l2_regularizer(0.003),
@@ -85,7 +85,7 @@ def inference(x,train=False):
     reshaped = tf.reshape(conv1_5, [-1, nodes])
     bn1=tf.layers.batch_normalization(inputs=reshaped,training=train)
     fc_score_1=tf.layers.dense(inputs=bn1,
-                        units=120,
+                        units=512,
                         activation=tf.nn.relu,
                         kernel_initializer=tf.truncated_normal_initializer(stddev=std_dev),
                         bias_initializer=tf.constant_initializer(0.0),
